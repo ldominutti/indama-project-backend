@@ -26,11 +26,11 @@ namespace WebApplication10
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+       public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
             services.AddScoped<IMailService, MailService>();
-
+        
             // Add CORS policy
             services.AddCors(options =>
             {
@@ -42,14 +42,13 @@ namespace WebApplication10
                                .AllowAnyMethod();
                     });
             });
-
+        
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApplication10", Version = "v1" });
             });
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -58,16 +57,16 @@ namespace WebApplication10
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApplication10 v1"));
             }
-
+        
             app.UseHttpsRedirection();
-
+        
             app.UseRouting();
-
+        
             // Use the CORS policy
             app.UseCors("AllowSpecificOrigin");
-
+        
             app.UseAuthorization();
-
+        
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
